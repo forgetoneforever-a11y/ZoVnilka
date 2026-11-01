@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: zovnilka-api
+    runtime: node
+    rootDir: server
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: zovnilka-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        value: "*"
+
+databases:
+  - name: zovnilka-db
+    databaseName: zovnilka
+    user: zovnilka
